@@ -278,7 +278,7 @@ if __name__ == '__main__':
 
     # Iterate through sites and process mutation analysis
     site_list = []
-    for index,char in enumerate(range(5)):#enumerate(HXCB2):
+    for index,char in enumerate(HXCB2):
         site_list.append([index+1,char,"AAA"])
         print([index+1,char,"AAA"])
     for site_pos in site_list:
