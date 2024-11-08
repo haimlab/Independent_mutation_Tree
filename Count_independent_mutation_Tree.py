@@ -283,6 +283,7 @@ if __name__ == '__main__':
         print([index+1,char,"AAA"])
     for site_pos in site_list:
         group_amino_count_list = []
+        print(f"Site_{site_pos[0]}_{HXCB2[site_pos[0]-1]}")
         for in_number in group_list:
 
             # Generate paths to input files based on the group
