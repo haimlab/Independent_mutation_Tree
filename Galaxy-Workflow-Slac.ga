@@ -1,0 +1,162 @@
+{
+    "a_galaxy_workflow": "true",
+    "annotation": "",
+    "comments": [],
+    "format-version": "0.1",
+    "name": "Slac",
+    "report": {
+        "markdown": "\n# Workflow Execution Report\n\n## Workflow Inputs\n```galaxy\ninvocation_inputs()\n```\n\n## Workflow Outputs\n```galaxy\ninvocation_outputs()\n```\n\n## Workflow\n```galaxy\nworkflow_display()\n```\n"
+    },
+    "steps": {
+        "0": {
+            "annotation": "",
+            "content_id": null,
+            "errors": null,
+            "id": 0,
+            "input_connections": {},
+            "inputs": [
+                {
+                    "description": "",
+                    "name": "Amino acid fasta"
+                }
+            ],
+            "label": "Amino acid fasta",
+            "name": "Input dataset",
+            "outputs": [],
+            "position": {
+                "left": 0,
+                "top": 3
+            },
+            "tool_id": null,
+            "tool_state": "{\"optional\": false, \"tag\": null}",
+            "tool_version": null,
+            "type": "data_input",
+            "uuid": "38bd2a33-986a-4d59-bb42-8282666bd664",
+            "when": null,
+            "workflow_outputs": []
+        },
+        "1": {
+            "annotation": "",
+            "content_id": null,
+            "errors": null,
+            "id": 1,
+            "input_connections": {},
+            "inputs": [
+                {
+                    "description": "",
+                    "name": "nucleic acid fasta"
+                }
+            ],
+            "label": "nucleic acid fasta",
+            "name": "Input dataset",
+            "outputs": [],
+            "position": {
+                "left": 23,
+                "top": 117
+            },
+            "tool_id": null,
+            "tool_state": "{\"optional\": false, \"tag\": null}",
+            "tool_version": null,
+            "type": "data_input",
+            "uuid": "e4e1d67c-a535-47f2-a6a2-fbe360c8c43c",
+            "when": null,
+            "workflow_outputs": []
+        },
+        "2": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/iuc/fasttree/fasttree/2.1.10+galaxy1",
+            "errors": null,
+            "id": 2,
+            "input_connections": {
+                "input_selector|input": {
+                    "id": 0,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [
+                {
+                    "description": "runtime parameter for tool FASTTREE",
+                    "name": "input_selector"
+                }
+            ],
+            "label": null,
+            "name": "FASTTREE",
+            "outputs": [
+                {
+                    "name": "output",
+                    "type": "nhx"
+                }
+            ],
+            "position": {
+                "left": 261,
+                "top": 0
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/fasttree/fasttree/2.1.10+galaxy1",
+            "tool_shed_repository": {
+                "changeset_revision": "e005e659ae21",
+                "name": "fasttree",
+                "owner": "iuc",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"advanced_selector\": {\"maximize\": \"min\", \"__current_case__\": 0}, \"input_selector\": {\"select_format\": \"fasta\", \"__current_case__\": 0, \"input\": {\"__class__\": \"ConnectedValue\"}, \"quote\": false, \"intree_selector\": {\"intree_format\": \"none\", \"__current_case__\": 0}}, \"model_selector\": {\"format\": \"\", \"__current_case__\": 1, \"model\": \"\"}, \"save_logfile\": false, \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "2.1.10+galaxy1",
+            "type": "tool",
+            "uuid": "b49e3a99-2f35-40ef-afc4-f1712bbed9c0",
+            "when": null,
+            "workflow_outputs": []
+        },
+        "3": {
+            "annotation": "",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/iuc/hyphy_slac/hyphy_slac/2.5.47+galaxy0",
+            "errors": null,
+            "id": 3,
+            "input_connections": {
+                "input_file": {
+                    "id": 1,
+                    "output_name": "output"
+                },
+                "input_nhx": {
+                    "id": 2,
+                    "output_name": "output"
+                }
+            },
+            "inputs": [],
+            "label": null,
+            "name": "HyPhy-SLAC",
+            "outputs": [
+                {
+                    "name": "slac_output",
+                    "type": "hyphy_results.json"
+                }
+            ],
+            "position": {
+                "left": 521,
+                "top": 0
+            },
+            "post_job_actions": {},
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/hyphy_slac/hyphy_slac/2.5.47+galaxy0",
+            "tool_shed_repository": {
+                "changeset_revision": "2753a5c7597a",
+                "name": "hyphy_slac",
+                "owner": "iuc",
+                "tool_shed": "toolshed.g2.bx.psu.edu"
+            },
+            "tool_state": "{\"branch_cond\": {\"branch_sel\": \"All\", \"__current_case__\": 1}, \"gencodeid\": \"Universal\", \"input_file\": {\"__class__\": \"ConnectedValue\"}, \"input_nhx\": {\"__class__\": \"ConnectedValue\"}, \"number_of_samples\": \"100\", \"p_value\": \"0.1\", \"__page__\": null, \"__rerun_remap_job_id__\": null}",
+            "tool_version": "2.5.47+galaxy0",
+            "type": "tool",
+            "uuid": "dc68dcb4-26e8-45da-857e-8e725a0747e9",
+            "when": null,
+            "workflow_outputs": [
+                {
+                    "label": "slac_output",
+                    "output_name": "slac_output",
+                    "uuid": "113c6407-3524-4c23-82eb-3cc23db0db58"
+                }
+            ]
+        }
+    },
+    "tags": [],
+    "uuid": "7494a4de-1c14-46a8-b6bc-e9a0422e140e",
+    "version": 2
+}
