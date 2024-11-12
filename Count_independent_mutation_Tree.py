@@ -32,6 +32,7 @@ Amino_acid = 'V'
 site = 208
 site = site - 1
 
+
 # Helper function to count occurrences of an element in a list
 def countX(lst, x):
     count = 0
@@ -41,15 +42,15 @@ def countX(lst, x):
     return count
 
 # Helper function to count nodes in a Newick formatted tree
-def count_nodes(input_tree):
-    tree_string = newick.dumps(input_tree)
-    lst = list(tree_string)
-    x = "("
-    count = 1
-    for ele in lst:
-        if (ele == x):
-            count = count + 1
-    return count
+def count_leaves(node):
+    if len(node.descendants) <= 0:
+        return 1
+    else:
+        sum = 0
+        for child in node.descendants:
+            sum += count_leaves(child)
+        return sum
+
 
 # Check if a string can be converted to a float
 def is_float(string):
@@ -98,12 +99,6 @@ def recursive_tree_search(input_tree,Name_list):
                 pass
         else:
             independent_mutation.append(codon[1])
-
-
-    with open("output.txt", "a") as f:
-        f.write(f"name list {Name} tree name {tree_name} data {data} independent_mutation {independent_mutation}\n")
-        f.close()
-        return data
     
 # Split a list into sublists based on two markers (used to process JSON-like structures)    
 def separate_list_by_markers(input_list,marker1,marker2):
@@ -269,6 +264,8 @@ if __name__ == '__main__':
     # Select the group list (e.g., clade B)
 
     #============== Change the clade Here
+    with open("In_clade_B_groups","r") as f:
+        clade_B_groups = [n.strip("\n") for n in list(f)]
     group_list = clade_B_groups 
     #====================================
 
@@ -314,7 +311,7 @@ if __name__ == '__main__':
             # Process results for amino acid counts
             Amino_acid_list = ["A","C","D","E","F","G","H","I","K","L","M","N","P","Q","R","S","T","V","W","Y"]
             
-            total_leafs = in_number 
+            total_leafs = count_leaves(tree(input_tree)[0])
 
             for Amino in Amino_acid_list:
                 if main_boole:
