@@ -256,7 +256,7 @@ if __name__ == '__main__':
     from config import HXCB2 as HXCB2
 
     with open(HXCB2,"r") as f:
-        HXCB2 = list(f)[1]
+        HXCB2 = list(f)[1].strip("\n")
 
     # Iterate through sites and process mutation analysis
     site_list = []
@@ -298,7 +298,7 @@ if __name__ == '__main__':
             # Process results for amino acid counts
             Amino_acid_list = ["A","C","D","E","F","G","H","I","K","L","M","N","P","Q","R","S","T","V","W","Y"]
             
-            total_leafs = count_leaves(tree(input_tree)[0])
+            total_leafs = count_leaves(tree(input_tree)[0])-1
 
             for Amino in Amino_acid_list:
                 if main_boole:

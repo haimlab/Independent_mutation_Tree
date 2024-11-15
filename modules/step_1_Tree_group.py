@@ -66,7 +66,7 @@ def recursive_tree_search(input_tree,max_group_size,glob,min_group_size):
     recursive = True
 
     # If the tree has fewer than max_group_size leaf nodes, start pruning
-    if min_group_size < count_nodes(input_tree) < max_group_size:
+    if count_nodes(input_tree) < max_group_size:
 
         # Create a unique file name based on the number of nodes in the tree
         f_name = glob.out_folder + "/" + str(count_nodes(input_tree)) + "-0"
@@ -75,38 +75,39 @@ def recursive_tree_search(input_tree,max_group_size,glob,min_group_size):
         while os.path.isfile(f_name):
             f_name = f_name.split("-")[0] + "-" + str(int(f_name.split("-")[-1])+1)
 
-        # Create an empty file with the generated name
-        with open(f_name,"w") as f:
-            f.close()
+        if min_group_size < count_nodes(input_tree):
+            # Create an empty file with the generated name
+            with open(f_name,"w") as f:
+                f.close()
 
-        # Write the Newick tree to the file
-        newick.write(input_tree, f_name)
+            # Write the Newick tree to the file
+            newick.write(input_tree, f_name)
 
-        # Open the file in append mode to finalize the operation
-        with open(f_name,"a") as f:
-            f.close()
-            recursive = False # No further recursion needed for this tree
+            # Open the file in append mode to finalize the operation
+            with open(f_name,"a") as f:
+                f.close()
+                recursive = False # No further recursion needed for this tree
 
-            # Convert the tree to a Newick string and split it into leaves (nodes)
-            tree_string = newick.dumps(input_tree)
-            leafs = re.split(r"[\( \), \-!?]+",tree_string)
+        # Convert the tree to a Newick string and split it into leaves (nodes)
+        tree_string = newick.dumps(input_tree)
+        leafs = re.split(r"[\( \), \-!?]+",tree_string)
 
-            # Remove any empty strings from the list
-            while '' in leafs:
-                leafs.remove('')
+        # Remove any empty strings from the list
+        while '' in leafs:
+            leafs.remove('')
 
-            new_leafs = []
-            # Process each leaf to remove any leaf that is a float (i.e., a distance value)
-            for n in leafs:
-                n = n.split(':')[0] # Take only the name, ignoring the distance
-                if not is_float(n): # Only add non-numeric names to new_leafs
-                    new_leafs.append(n)
+        new_leafs = []
+        # Process each leaf to remove any leaf that is a float (i.e., a distance value)
+        for n in leafs:
+            n = n.split(':')[0] # Take only the name, ignoring the distance
+            if not is_float(n): # Only add non-numeric names to new_leafs
+                new_leafs.append(n)
 
-            # Add the names of leaves to prune to the global list
-            glob.leaves_to_prune += new_leafs
+        # Add the names of leaves to prune to the global list
+        glob.leaves_to_prune += new_leafs
 
-            # Prune the tree by removing the identified leaves
-            glob.tree_search.prune_by_names(new_leafs)
+        # Prune the tree by removing the identified leaves
+        glob.tree_search.prune_by_names(new_leafs)
 
     # Recursively process all descendants of the current tree
     if recursive:

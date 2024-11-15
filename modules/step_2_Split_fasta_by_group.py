@@ -84,15 +84,17 @@ def main(input_folders,Root_sequence_path,input_amion_acid,out_folders,fasta_typ
         with open(input_amion_acid,"r") as f:
             file_list = list(f) # Read all lines of the amino acid sequence file
 
+        file_list = strip_fasta(input_amion_acid)
+
         dic = {} # Dictionary to store sequence for each leaf
 
         # Loop through the lines in the sequence file
         for index,line in enumerate(file_list):
 
             # Split the line to get the sequence name (first element)
-            sequence_name = line.split()
-            
-
+            sequence_name = line
+            if len(line) < 2:
+                sequence_name = line.split()
             
             # Extract the accession number from the sequence name
             ascension_number = sequence_name[0].strip(">")
@@ -111,12 +113,16 @@ def main(input_folders,Root_sequence_path,input_amion_acid,out_folders,fasta_typ
         Out_put = out_folders +"/"+ file + fasta_type + "_" + Out_put 
         
         # Write the matched sequences to the output file
+        print(len(dic.keys()))
         with open(Out_put,"w") as f: 
             for line in new_leafs: # For each leaf in the new leaf list
                 # Write the sequence in FASTA format
                 f.write(f">{line}\n")
-                f.write(f"{dic[line].split()[1]}\n")
-
+                if len(line) < 2:
+                    f.write(f"{dic[line].split()[1]}\n")
+                else:
+                    f.write(f"{dic[line][1]}\n")
+            
             # Write the root sequence at the end of the file
             f.write(f"{Root_sequence.split()[0]}\n")
             f.write(f"{Root_sequence.split()[-1]}\n")
