@@ -1,26 +1,27 @@
 
 #   Clade 
-clade = "C"
+clade = "B"
 
 #   Input file path for the tree in Newick format
-input_newick = 'Input_files/C_1734_Fasttree.nwk'
+input_newick = 'Input_files/B_rooted_2535.NWK'
 
 #   Max group size to divide Newick tree
-max_group_size = 160
+max_group_size = 180
+
 #   Min group size to divide Newick tree
 min_group_size = 80
 
 #   Input file for the amino acid sequence data for the clade
-input_amion_acid = "Input_files/C_1734_amino.fa"
+input_amion_acid = "Input_files/strip_CladeB_AminoAcid_HXBC2(2535).fa"
 
 #   Input file for the nucleotide sequence data for the clade
-input_nucleotide = "Input_files/C_1734_Nuc.fa"
+input_nucleotide = "Input_files/strip_CladeB_Nucleotide_HXBC2(2535).fa"
 
 #   Path to the reference or root sequence for amino acids
-Amino_Root_sequence_path = "Input_files/Con_C_Amino.fa"
+Amino_Root_sequence_path = "Input_files/Con_amino_B_lin.fa"
 
 #   Path to the reference or root sequence for nucleotides
-nucleotide_Root_sequence_path = "Input_files/CON_C_NUC.fa"
+nucleotide_Root_sequence_path = "Input_files/Con_nuc_B_lin.fa"
 
 #   Path to the slac data folder contaning jason and newick files
 Slac_data = f'Clade_{clade}_Slac_data'
@@ -29,7 +30,7 @@ Slac_data = f'Clade_{clade}_Slac_data'
 HXCB2 = "Input_files/HXB2.fa"
 
 #   Path to the clade_consensus fasta file 
-clade_consensus =  "Input_files/Con_C_Amino.fa"
+clade_consensus =  "Input_files/Con_amino_B_lin.fa"
 
 """
 con_AE = "MRVKETQ-MNWPNLWKWGTLILGLVIICSASDNLWVTVYYGVPVWRDADTTLFCASDAKAHETEVHNVWATHACVPTDPNPQEIHLENVTENFNMWKNNMVEQMQEDVISLWDQSLKPCVKLTPLCVTLNCTNANLTNTNNTNN---GNITDEVRNCSFNMTTELRDKKQKVHALFYKLDIVPIDNNSSEYRLINCNTSVIKQACPKISFDPIPIHYCTPAGYAILKCNDKNFNGTGPCKNVSSVQCTHGIKPVVSTQLLLNGSLAEEEIIIRSENLTNNAKTIIVHLNKSVEINCTRPSNNTRTSITI--GPGQ--VFYRIIGDIRKAYCEINGTKWNETLKQVAEKLKE-HFNNKTIIFQPPSGGDLEITMHHFNCRGEFFYCNTTKLFNSTCIENEX-------EGSNGTIILPCRIKQIINMWQGVGQAMYAPPISGRINCVSNITGILLTRDGGNNNNTNETFRPGGGNIKDNWRSELYKYKVVQIEPLGIAPTRAKRRVVEREKRAVGIGAMIFGFLGAAGSTMGAASITLTVQARQLLSGIVQQQSNLLRAIEAQQHLLQLTVWGIKQLQARVLAVERYLKDQKFLGLWGCSGKIICTTAVPWNSTWSNKSYEEIWNNMTWIEWEREISNYTNQIYEILTESQNQQDRNEKDLLELDKWASLWNWFDITNWLWYIKIFIMIVGGLIGLRIIFAVLSIVNRVRQGYSPLSFQTPTHHQREPDRPERIEEGGGEQGRDRSVRLVSGFLALAWDDLRSLCLFSYHRLRDFILIAARTVELLGHSGWEGLKYLGNLLLYWGQELKISAISLLDATAIAVAGWTDRVIEVAQRAWRAILHIPRRIRQGLERALL*"
@@ -38,13 +39,3 @@ con_c = "MRVRGIL-RNCQQWWIWGILGFWMLMICNVVGNLWVTVYYGVPVWKEAKTTLFCASDAKAYEKEVHNVWAT
 
 con = con_b
 """
-
-
-
-
-
-
-
-
-
-

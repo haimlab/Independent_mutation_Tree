@@ -11,12 +11,9 @@ global used_names
 used_names =[]
 total_mutation = 0
 independent_mutation = 0
-reversion_ratio = 0
+non_leaf_node_amino_count = []
 
-total_mutation = 0
-independent_mutation = 0
 
-reversion_ratio = 0
 
 
 def files_of_name_in_dir(in_path,file_extension):
@@ -68,13 +65,14 @@ def tree(input_file):
 # Recursively process the tree to track mutations at each node
 def recursive_tree_search(input_tree,Name_list):
 
-    global total_mutation, independent_mutation, reversion_ratio, used_names
+    global total_mutation, independent_mutation, non_leaf_node_amino_count, used_names
 
     working_tree = input_tree
     tree_name = input_tree[0].name
     data_list = []
 
     node_list = working_tree[0].descendants
+
 
     for node in node_list:
         data_list.append(recursive_tree_search([node],Name_list))
@@ -89,6 +87,10 @@ def recursive_tree_search(input_tree,Name_list):
         data = [sublist[1][0].split(',')[site].strip().strip(' "'),sublist[0][0].split(',')[site].strip().strip(' "')]
     else:
         data = "none found"
+
+
+    if len(data_list) !=0:
+        non_leaf_node_amino_count[data[1]] += 1
 
     for codon in data_list:
         if codon[1] == data[1]:
@@ -194,6 +196,7 @@ def main():
         Data_dict_pre = create_dictionary_from_list(lines_between_markers)
 
     Name_list = read_lines_between_markers(file_path,"NAMES","RESOLVED")
+    
 
 
     Data_dict = {}
@@ -206,6 +209,7 @@ def main():
     total_sequence_number = len(Name_list)-1
 
     amino_acid_expression_list = []
+    
     for Name in Data_dict:
         raw_data = Data_dict[Name]
         sublist = separate_list_by_markers(raw_data,'[',']')
@@ -217,8 +221,8 @@ def main():
         with open(con,"r") as f:
             con = list(f)[1]
 
-        count_amino = countX(amino_acid_expression_list,con[site])
-
+    count_amino = countX(amino_acid_expression_list,con[site])
+    #print(count_amino,con[site],site)
     if count_amino > len(amino_acid_expression_list) /2:
         recursive_tree_search(tree(input_tree),Name_list)
         return True
@@ -256,17 +260,28 @@ if __name__ == '__main__':
     from config import HXCB2 as HXCB2
 
     with open(HXCB2,"r") as f:
-        HXCB2 = list(f)[1].strip("\n")
+        HXCB2 = list(f)[1]
 
     # Iterate through sites and process mutation analysis
     site_list = []
     for index,char in enumerate(HXCB2):
         site_list.append([index+1,char,"AAA"])
-        print([index+1,char,"AAA"])
+    #site_list = site_list[250:260]
     for site_pos in site_list:
         group_amino_count_list = []
         print(f"Site_{site_pos[0]}_{HXCB2[site_pos[0]-1]}")
+
+        
+
+
         for in_number in group_list:
+
+            Amino_acid_list = ["A","C","D","E","F","G","H","I","K","L","M","N","P","Q","R","S","T","V","W","Y","-"]
+
+            non_leaf_node_amino_count = {}
+            for Amino_acid in Amino_acid_list:
+                non_leaf_node_amino_count[Amino_acid] = 0
+
 
             # Generate paths to input files based on the group
             
@@ -283,9 +298,8 @@ if __name__ == '__main__':
             # Perform mutation analysis for each group
             base_sequence = site_pos[2]
             Amino_acid = site_pos[1]
-            site = site_pos[0]
-            adjust = 1
-            site = site - adjust
+            site = site_pos[0]-1
+
 
             # Reset mutation tracking variables
             reversions = 0
@@ -298,11 +312,15 @@ if __name__ == '__main__':
             # Process results for amino acid counts
             Amino_acid_list = ["A","C","D","E","F","G","H","I","K","L","M","N","P","Q","R","S","T","V","W","Y"]
             
-            total_leafs = count_leaves(tree(input_tree)[0])-1
+            total_leafs = count_leaves(tree(input_tree)[0])
 
             for Amino in Amino_acid_list:
                 if main_boole:
-                    group_amino_count_list[-1].append(countX(independent_mutation,Amino)/total_leafs)
+                    if countX(independent_mutation,Amino) != 0:
+                        print(non_leaf_node_amino_count[Amino],Amino,sum(non_leaf_node_amino_count.values()))
+                        group_amino_count_list[-1].append(countX(independent_mutation,Amino)/(sum(non_leaf_node_amino_count.values()) - non_leaf_node_amino_count[Amino]))
+                    else:
+                        group_amino_count_list[-1].append(0)
                 else:
                     group_amino_count_list[-1].append("-")
 
