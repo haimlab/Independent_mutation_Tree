@@ -56,7 +56,7 @@ Define these in `config.py`:
 - **input_amino_acid**: Aligned amino acid sequences (HXB2 numbering). Example: `strip_CladeB_AminoAcid_HXBC2(2535).fa`
 - **input_nucleotide**: Aligned nucleotide sequences (HXB2 numbering). Example: `strip_CladeB_Nucleotide_HXBC2(2535).fa`
 - **Amino_Root_sequence_path**: Amino acid consensus sequence (HXB2 numbering). Example: `Con_amino_B_lin.fa`
-- **nucleotide_Root_sequence_path**: Nucleotide consensus sequence. Example: `Con_nuc_B_lin.fa`
+- **nucleotide_Root_sequence_path**: Nucleotide consensus sequence (HXB2 numbering) consensus sequence name should match between Amino_Root_sequence_path and nucleotide_Root_sequence_path. Example: `Con_nuc_B_lin.fa`
 
 ### Outputs
 - **Clade_B_amino_fastas**: Contains amino acid FASTA files for groups.
