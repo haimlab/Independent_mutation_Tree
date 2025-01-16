@@ -10,10 +10,16 @@ def files_of_name_in_dir(in_path,file_extension):
     return(files)
 
 
-def main(in_folder,out_file,extension):
+def main(in_folder,out_file,extensions):
     cwd = os.getcwd()
 
-    files = files_of_name_in_dir(in_folder,extension)
+    files = []
+
+    for extension in extensions:
+
+        sub_files = files_of_name_in_dir(in_folder,extension)
+
+        files = files + sub_files
 
 
 
