@@ -33,8 +33,11 @@ def run_strip_line(Mafft_In,Consensus_mapped_reference_out_path,extensions):
 
     print("A3_Strip_endline")
 
+    file_list = []
 
-    file_list = files_of_name_in_dir(Mafft_In,extensions)
+    for extension in extensions:
+        sub_file_list = files_of_name_in_dir(Mafft_In,extension)
+        file_list = file_list + sub_file_list
 
     for file_name in file_list:
 
@@ -61,7 +64,7 @@ if __name__ == '__main__':
     #=============================================================
     reference_in_path = "strip_reference"
     reference_out_path = "strip_reference_Out"
-    File_extension = "fa"
+    File_extension = ["fa","fasta"]
     #=============================================================
 
     run_strip_line(reference_in_path,reference_out_path,File_extension)

@@ -2,6 +2,7 @@
 import newick # To work with Newick format trees
 import re # Regular expressions for text processing
 import os # File path manipulations
+import shutil
 
 import modules.step_1_Tree_group as step_1
 import modules.step_2_Split_fasta_by_group as step_2
@@ -42,6 +43,19 @@ def run_step_0(folders_list):
 
     print("End Step 0 create empty folder")
 
+def run_step_0_5(folders_list,step_2_input_amion_acid,step_2_input_Nucleotide,step_3_File_extension):
+
+    shutil.copy(step_2_input_amion_acid, folders_list[-2])
+    shutil.copy(step_2_input_Nucleotide, folders_list[-2])
+
+    Strip.run_strip_line(folders_list[-2],folders_list[-1],step_3_File_extension)
+
+    step_2_input_amion_acid = os.path.join(folders_list[-1],"strip_" + step_2_input_amion_acid.split("/")[-1])
+
+    step_2_input_Nucleotide = os.path.join(folders_list[-1],"strip_" + step_2_input_Nucleotide.split("/")[-1])
+
+
+    return step_2_input_amion_acid,step_2_input_Nucleotide
 
 def run_step_1(input_tree,out_folder,max_group_size,step_1_min_group_size):
     
@@ -60,8 +74,9 @@ def run_step_3(step_3_reference_in_path,step_3_out_path,step_3_File_extension):
 
 def main(folders_list,step_1_input_tree,step_1_out_folder,step_1_max_group_size,step_1_min_group_size,step_2_input_amion_acid,step_2_input_Nucleotide,step_2_input_folders,step_2_Amino_Root_sequence_path,step_2_nucleotide_Root_sequence_path,step_2_out_folders,step_2_file_extension_nwk,step_2_file_extension_nuc,step_2_out_folder_2,step_3_reference_in_path,step_3_out_path,step_3_File_extension,step_4_in_folder,step_4_out_file,step_4_extension):
     run_step_0(folders_list)
+    step_2_input_amion_acid,step_2_input_Nucleotide = run_step_0_5(folders_list,step_2_input_amion_acid,step_2_input_Nucleotide,step_3_File_extension)
     run_step_1(step_1_input_tree,step_1_out_folder,step_1_max_group_size,step_1_min_group_size)
-    run_step_2(step_2_input_amion_acid,step_2_input_Nucleotide,step_2_input_folders,step_2_Amino_Root_sequence_path,step_2_nucleotide_Root_sequence_path,step_2_out_folders,step_2_file_extension_nwk,step_2_file_extension_nuc,step_2_out_folder_2,)
+    run_step_2(step_2_input_amion_acid,step_2_input_Nucleotide,step_2_input_folders,step_2_Amino_Root_sequence_path,step_2_nucleotide_Root_sequence_path,step_2_out_folders,step_2_file_extension_nwk,step_2_file_extension_nuc,step_2_out_folder_2)
     run_step_3(step_3_reference_in_path,step_3_out_path,step_3_File_extension)
     step_4.main(step_4_in_folder,step_4_out_file,step_4_extension)
 
@@ -69,6 +84,9 @@ def main(folders_list,step_1_input_tree,step_1_out_folder,step_1_max_group_size,
 if __name__ == '__main__':
 
     from config import clade as clade
+
+    folders_step_0_5 = f"0_5_Clade_{clade}_nucleotide_fastas_strip" #0.5
+    folders_step_0_6 = f"0_5_Clade_{clade}_nucleotide_fastas_cleaned" #0.5
 
     folders_step_1 = f"1_Clade_{clade}_NWk_groups" #1
     folders_step_2 = f"Clade_{clade}_amino_fastas" #2
@@ -85,8 +103,6 @@ if __name__ == '__main__':
 
     # Output folder where results will be saved
     step_1_out_folder = folders_step_1
-
-
 
     # Input max group size
     from config import max_group_size as max_group_size
@@ -122,19 +138,22 @@ if __name__ == '__main__':
     #=============================================================
     step_3_reference_in_path = folders_step_3
     step_3_out_path = folders_step_4
-    step_3_File_extension = "fa"
+    step_3_File_extension = ["fa","fasta"]
     #=============================================================
 
         # Input and output paths
     #=============================================================
     step_4_in_folder = folders_step_4
     step_4_out_file = folders_step_5
-    step_4_extension = "fa"
+    step_4_extension = ["fa","fasta"]
     #=============================================================
     
-    folders_list = [folders_step_1,folders_step_2,folders_step_3,folders_step_4,folders_step_5,folders_step_6]
+    folders_list = [folders_step_1,folders_step_2,folders_step_3,folders_step_4,folders_step_5,folders_step_6,folders_step_0_5,folders_step_0_6]
     main(folders_list,step_1_input_tree,step_1_out_folder,step_1_max_group_size,step_1_min_group_size,step_2_input_amion_acid,step_2_input_Nucleotide,step_2_input_folders,step_2_Amino_Root_sequence_path,step_2_nucleotide_Root_sequence_path,step_2_out_folders,step_2_file_extension_nwk,step_2_file_extension_nuc,step_2_out_folder_2,step_3_reference_in_path,step_3_out_path,step_3_File_extension,step_4_in_folder,step_4_out_file,step_4_extension)
 
     delete_folder(folders_step_1)
     delete_folder(folders_step_3)
     delete_folder(folders_step_4)
+
+    delete_folder(folders_step_0_5)
+    delete_folder(folders_step_0_6)
