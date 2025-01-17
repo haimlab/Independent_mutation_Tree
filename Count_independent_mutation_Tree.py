@@ -216,10 +216,10 @@ def main():
         data = [sublist[1][0].split(',')[site].strip().strip(' "'),sublist[0][0].split(',')[site].strip().strip(' "')]
         amino_acid_expression_list.append(data[-1])
 
-        from config import clade_consensus as con
+    from config import clade_consensus as con
 
-        with open(con,"r") as f:
-            con = list(f)[1]
+    with open(con,"r") as f:
+        con = list(f)[1]
 
     count_amino = countX(amino_acid_expression_list,con[site])
     #print(count_amino,con[site],site)
@@ -317,12 +317,17 @@ if __name__ == '__main__':
             for Amino in Amino_acid_list:
                 if main_boole:
                     if countX(independent_mutation,Amino) != 0:
-                        print(non_leaf_node_amino_count[Amino],Amino,sum(non_leaf_node_amino_count.values()))
                         group_amino_count_list[-1].append(countX(independent_mutation,Amino)/(sum(non_leaf_node_amino_count.values()) - non_leaf_node_amino_count[Amino]))
                     else:
                         group_amino_count_list[-1].append(0)
                 else:
                     group_amino_count_list[-1].append("-")
+
+        from config import clade_consensus as con
+
+        with open(con,"r") as f:
+            con = list(f)[1]
+
 
         # Write the mutation analysis results to the output file
         print(Out_file_name)
@@ -331,7 +336,7 @@ if __name__ == '__main__':
             f.write(f'\n')
             f.write(f'\n')
             for index in range(len(group_amino_count_list[0])):
-                header = [f"Site_{site_pos[0]}_{HXCB2[site_pos[0]-1]}"] + Amino_acid_list
+                header = [f"Site_{site_pos[0]}_{con[site_pos[0]-1]}"] + Amino_acid_list
                 f.write(f"{header[index]}\t")
                 for item in group_amino_count_list:
                     f.write(f'{item[index]}\t')
